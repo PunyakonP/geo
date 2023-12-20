@@ -30,8 +30,13 @@
                     <div>
                         <p>ยืนยันการเข้าทดลองขับรถ</p>
                         <button type="button" class="btn btn-primary" id="btn_get_location"
-                            onclick=" getLocation()">กดยืนยัน</button>
-                        <p id="demo"></p>
+                            onclick=" getLocationG()">กดยืนยัน google</button>
+                        <p id="google"></p>
+
+                        <button type="button" class="btn btn-primary" id="btn_get_location"
+                            onclick=" getLocationM()">กดยืนยัน Math</button>
+                        <p id="math"></p>
+
                     </div>
                 </div>
             </div>
@@ -47,13 +52,21 @@
 
 
 <script>
-    const x = document.getElementById("demo");
+    const g = document.getElementById("google");
+    const m = document.getElementById("math");
 
-    function getLocation() {
+    function getLocationG() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(GetPosition);
+            navigator.geolocation.getCurrentPosition(GetPositionG);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            g.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function getLocationM() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(GetPositionM);
+        } else {
+            m.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
@@ -61,8 +74,8 @@
         return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
     }
 
-    function GetPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
+    function GetPositionG(position) {
+        g.innerHTML = "Latitude: " + position.coords.latitude +
             "<br>Longitude: " + position.coords.longitude;
         const lat1 = position.coords.latitude
         const lon1 = position.coords.longitude
@@ -74,12 +87,21 @@
         var p2 = new google.maps.LatLng(lat2, lon2);
         var distance = calcDistance(p1, p2) * 1000;
         console.log(distance)
+        g.innerHTML = `P1: ${p1} <br>P2: ${p2} <br>Distance: ${distance} เมตร.`
         // const userPosition = {
         //     lat: position.coords.latitude,
         //     long: position.coords.longitude
         // }
     }
 
+    function GetPositionM(position) {
+        const lat1 = position.coords.latitude
+        const lon1 = position.coords.longitude
+        const lat2 = 13.7271708
+        const lon2 = 100.5415611
+        const unit = "K"
+        distance(lat1, lon1, lat2, lon2, unit)
+    }
     // lat1 = this.userPosition.lat
     // lon1 = userPosition.long
     // const lat2 = 12.787188563946689
@@ -87,9 +109,12 @@
 
     function distance(lat1, lon1, lat2, lon2, unit) {
         var radlat1 = Math.PI * lat1 / 180
+        m.innerHTML = `P1: ${radlat1}`
         var radlat2 = Math.PI * lat2 / 180
+        m.innerHTML = `P2: ${radlat2}`
         var theta = lon1 - lon2
         var radtheta = Math.PI * theta / 180
+        m.innerHTML = `R theta: ${radtheta} / theta: ${theta}`
         var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         if (dist > 1) {
             dist = 1;
@@ -100,7 +125,7 @@
         console.log(dist)
         if (unit == "K") { dist = dist * 1.609344 }
         if (unit == "N") { dist = dist * 0.8684 }
-        x.innerHTML = `result : ${dist} K.`
+        m.innerHTML = `result : ${dist} K.`
         return dist
     }
     // if (distance(lat1, lon1, lat2, lon2, unit) <= 0.1) {
