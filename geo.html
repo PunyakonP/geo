@@ -79,8 +79,9 @@
         //     "<br>Longitude: " + position.coords.longitude;
         const lat1 = position.coords.latitude
         const lon1 = position.coords.longitude
-        const lat2 = 13.7271708
-        const lon2 = 100.5415611
+        const lat2 = 13.743572557435463
+        const lon2 =  100.54781235014433
+        // 13.743572557435463, 100.54781235014433
         const unit = "K"
         // distance(lat1, lon1, lat2, lon2, unit)
         var p1 = new google.maps.LatLng(lat1, lon1);
@@ -125,7 +126,7 @@
         console.log(dist)
         if (unit == "K") { dist = dist * 1.609344 }
         if (unit == "N") { dist = dist * 0.8684 }
-        m.innerHTML = `result : ${dist} K.`
+        m.innerHTML = `P1: ${radlat1} / P2: ${radlat2}R theta: ${radtheta} / theta: ${theta} / distance : ${dist} K.`
         return dist
     }
     // if (distance(lat1, lon1, lat2, lon2, unit) <= 0.1) {
